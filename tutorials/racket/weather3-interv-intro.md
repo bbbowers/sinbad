@@ -22,7 +22,7 @@ Suppose we would like to produce brief reports on the relative difference in tem
 
 Let's try applying your program to some *real live weather observation data*!  We are going to use a code "library" that provides some facilities to make this easy for us, so we'll have to go through a brief setup and introduction to that library first. 
 
-We will be accessing live weather data from the National Weather Service. You can get a sense of the type of information available by visiting the page [http://weather.gov/xml/current_obs/KATL.xml](http://weather.gov/xml/current_obs/KATL.xml) in your browser. 
+We will be accessing live weather data from the National Weather Service. You can get a sense of the type of information available by visiting the page [https://forecast.weather.gov/xml/current_obs/KATL.xml](https://forecast.weather.gov/xml/current_obs/KATL.xml) in your browser. 
 
 ### Installing *Sinbad*
 
@@ -55,7 +55,7 @@ There are several steps that may be required for step 1, and there are a variety
   - First, we use a `sail-to` form to *connect* to the data source URL. The result will be an object representing a connection to the data source, which we will define a name for, here `ds` (the name you choose doesn't matter). Add this line to your program:
 
 ````
-(define ds (sail-to "http://weather.gov/xml/current_obs/KRMG.xml"))
+(define ds (sail-to "https://forecast.weather.gov/xml/current_obs/KRMG.xml"))
 ````
 
   - To actually go out to the data source URL and download the data, we use a `load` expression:
@@ -70,7 +70,7 @@ There are several steps that may be required for step 1, and there are a variety
 (fetch ds "temp_f")
 ````
 
-* Run your program at this point. You should see a temperature value printed out that matches what is shown at the URL [weather.gov/xml/current_obs/KRMG.xml](http://weather.gov/xml/current_obs/KRMG.xml) if you load it in your web browser.
+* Run your program at this point. You should see a temperature value printed out that matches what is shown at the URL [forecast.weather.gov/xml/current_obs/KRMG.xml](https://forecase.weather.gov/xml/current_obs/KRMG.xml) if you load it in your web browser.
 
 * Try fetching the data that has label "location". 
 
@@ -79,7 +79,7 @@ There are several steps that may be required for step 1, and there are a variety
 
 In the program you just wrote, we told you that the label for the piece of data representing the current temperature in Fahrenheit was `temp_f`. How might you figure out what other pieces of data are available? There are at least two ways to do so. 
 
-1. The first is to look for documentation on the web site that provides the data. In our case, if you go to the main web site for the "Current Weather Conditions" data that is provided by the NWS, [`weather.gov/xml/current_obs/`](http://weather.gov/xml/current_obs/), the last sentence of the first paragraph contains a link to a "Product Description Document". If you click on that, you get a PDF document with a example, on the second page, of a data set in XML format. 
+1. The first is to look for documentation on the web site that provides the data. In our case, if you go to the main web site for the "Current Weather Conditions" data that is provided by the NWS, [`forecast.weather.gov/xml/current_obs/`](https://forecast.weather.gov/xml/current_obs/), the last sentence of the first paragraph contains a link to a "Product Description Document". If you click on that, you get a PDF document with a example, on the second page, of a data set in XML format. 
 
    It is not very friendly-looking, and indeed, different web sites will provide better or worse documentation of the available pieces of data they supply. If you are working on an assignment for class, the instructor or teaching assistant can help you find and figure out the documentation for a given data source.
 
@@ -95,7 +95,7 @@ In the program you just wrote, we told you that the label for the piece of data 
 
 ````
 -----
-Data Source: http://weather.gov/xml/current_obs/KRMG.xml
+Data Source: https://forecast.weather.gov/xml/current_obs/KRMG.xml
 Format: xml
 
 The following data is available:
@@ -122,7 +122,7 @@ structure with {
 Since the process of connecting, loading, and displaying fields of a data source are so common, there is a way to combine all of these steps into a single `sail-to` expression form, like the following (comment out or replace the lines of code you had previously typed in your file to `sail-to`, `load`, and `manifest` so that they don't conflict with this):
 
 ````
-(define ds (sail-to "http://weather.gov/xml/current_obs/KRMG.xml"
+(define ds (sail-to "https://forecast.weather.gov/xml/current_obs/KRMG.xml"
                     (manifest)
                     (load)))
 
@@ -133,7 +133,7 @@ This form is a little more concise, and, in fact the order in which you put the 
 Once you have seen the manifest and figured out the field labels you need, it's easy to just comment it out with a semicolon in front of that line:
 
 ````
-(define ds (sail-to "http://weather.gov/xml/current_obs/KRMG.xml"
+(define ds (sail-to "https://forecast.weather.gov/xml/current_obs/KRMG.xml"
                     ; (manifest)
                     (load)))
 ````
@@ -145,7 +145,7 @@ If you try running the weather data program we've written at different times dur
 However, sometimes you might really want to connect to the web service and download fresh, rather than cached, data. To tell *Sinbad* that you want to fetch fresh data every so many minutes, use a `cache-timeout` clause in the `sail-to` expression. This clause has a single parameter: the number of seconds after which data is considered "stale" and should be downloaded again from the data source upon connection. For example, to have your weather data refreshed every 15 minutes, modify your `sail-to` to look like this (again, the order of the clauses in a `sail-to`, after the initial URL, is not important):
 
 ````
-(define ds (sail-to "http://weather.gov/xml/current_obs/KRMG.xml"
+(define ds (sail-to "https://forecast.weather.gov/xml/current_obs/KRMG.xml"
                     (cache-timeout (* 15 60))
                     (manifest)
                     (load)))
@@ -154,7 +154,7 @@ However, sometimes you might really want to connect to the web service and downl
 You may have noticed the first time you ran your program a message like:
 
 ````
-Downloading http://weather.gov/xml/current_obs/KATL.xml (this may take a moment)
+Downloading https://forecast.weather.gov/xml/current_obs/KATL.xml (this may take a moment)
 ....Done
 ````
 
@@ -179,7 +179,7 @@ Let's reorganize our code so that we can easily adjust the weather station code 
 (define STN-CODE "KRMG")
 
 (define ds
-  (sail-to (string-append "http://weather.gov/xml/current_obs/" STN-CODE ".xml")
+  (sail-to (string-append "https://forecast.weather.gov/xml/current_obs/" STN-CODE ".xml")
            (cache-timeout 300) 
            (load)))
 ````
@@ -193,7 +193,7 @@ You should now to be able to generate a report on the temperature difference usi
               (fetch ds-2 "location") (fetch ds-2 "temp_f"))
 ````
 
-You can find station codes by going to [http://weather.gov/xml/current_obs/](http://weather.gov/xml/current_obs/), selecting a state from the dropdown choice box, and then making a note of the four-letter code in parentheses after the observation locations listed.
+You can find station codes by going to [https://forecast.weather.gov/xml/current_obs/](https://forecast.weather.gov/xml/current_obs/), selecting a state from the dropdown choice box, and then making a note of the four-letter code in parentheses after the observation locations listed.
 
 ----
 
